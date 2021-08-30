@@ -41,8 +41,10 @@ defmodule Realtime.WebhookConnector do
        when is_binary(endpoint) do
     Logger.debug("Invoking webhook: #{inspect(webhook)}")
 
+    headers = Application.fetch_env!(:realtime, :webhook_headers)
+
     Task.async(fn ->
-      HTTPoison.post(endpoint, serialized_txn, [{"Content-Type", "application/json"}])
+      HTTPoison.post(endpoint, serialized_txn, headers)
     end)
   end
 
