@@ -66,7 +66,9 @@ defmodule Realtime.Application do
       case Application.fetch_env(:realtime, :webhook_headers) do
         {:ok, env_val} ->
           # Decode headers from env string
-          Realtime.Helpers.env_kv_to_list(env_val, def_headers)
+          {:ok, decoded_headers} =
+            Realtime.Helpers.env_kv_to_list(env_val, def_headers)
+          decoded_headers
         _ ->
           def_headers
       end
